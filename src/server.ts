@@ -23,11 +23,11 @@ class Server {
 
     public async routes(){
 
-    AppDataSource.initialize().then(async () => {
+    await AppDataSource.initialize()
 
     console.log("Inserting a new user into the database...")
     const user = new User()
-    user.firstName = "Timber"
+    user.firstName = "Band"
     user.lastName = "Saw"
     user.age = 25
     await AppDataSource.manager.save(user)
@@ -37,16 +37,15 @@ class Server {
     const users = await AppDataSource.manager.find(User)
     console.log("Loaded users: ", users)
 
-    console.log("Here you can setup and run express / fastify / any other framework.")
 
-}).catch(error => console.log(error))
 
-        this.app.use('/api/posts', this.postController.router);
-        this.app.get('/', (req: Request, res: Response) => {
+    this.app.use('/api/posts', this.postController.router);
+    this.app.get('/', (req: Request, res: Response) => {
             res.send('Hello Worlddd');
-        })
+    })
     }
 
+    
     public start(){
         this.app.listen(this.app.get('port'), () => {
             console.log('Server on port', this.app.get('port'));
