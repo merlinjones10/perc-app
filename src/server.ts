@@ -4,8 +4,6 @@ import { PostController } from './controllers/post.controller';
 import { AppDataSource } from "./data-source"
 import { User } from "./database/entity/User"
 
-
-
 class Server {
     private app: express.Application;
     private postController: PostController;
@@ -26,6 +24,7 @@ class Server {
     await AppDataSource.initialize()
 
     this.app.use('/api/posts', this.postController.router);
+    
     this.app.get('/', (req: Request, res: Response) => {
             res.send('Hello Worlddd');
     })

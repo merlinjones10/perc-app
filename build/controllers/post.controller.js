@@ -14,12 +14,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostController = void 0;
 const express_1 = __importDefault(require("express"));
+const post_service_1 = require("../services/post.service");
 class PostController {
     constructor() {
         this.index = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            res.send('Index');
+            console.log('1. HERE');
+            yield this.postService.index().then(users => {
+                console.log('3 HERE', users);
+            });
+            res.send('Check the logs, idiota');
         });
         this.create = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const user = req['body'];
+            // const newUser = await this.postService.create(user);
             res.send('Create');
         });
         this.update = (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -28,6 +35,7 @@ class PostController {
         this.delete = (req, res) => __awaiter(this, void 0, void 0, function* () {
             res.send('Delete');
         });
+        this.postService = new post_service_1.PostService();
         this.router = express_1.default.Router();
         this.routes();
     }

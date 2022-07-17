@@ -1,18 +1,30 @@
 import express, {Router, Request, Response} from 'express';
+import { User } from '../database/entity/User';
+import { PostService } from '../services/post.service';
+import { AppDataSource } from '../data-source';
+
 
 export class PostController {
-    router: Router;
+    public router: Router;
+    private postService: PostService;
 
     constructor() {
+        this.postService = new PostService();
         this.router = express.Router();
         this.routes();
     }
 
     public index = async (req: Request, res: Response) => {
-        res.send('Index');
+        console.log('1. HERE');
+        await this.postService.index().then(users => {console.log('3 HERE', users);
+        })
+        res.send('Check the logs, idiota. ');
+
     }
 
     public create = async (req: Request, res: Response) => {
+        const user = req['body'] as User;
+        // const newUser = await this.postService.create(user);
         res.send('Create');
     }
 
