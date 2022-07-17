@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import "reflect-metadata"
-import { PostController } from '../controllers/post.controller';
+import { PostController } from './controllers/post.controller';
 import { AppDataSource } from "./data-source"
-import { User } from "./entity/User"
+import { User } from "./database/entity/User"
 
 
 
@@ -25,27 +25,13 @@ class Server {
 
     await AppDataSource.initialize()
 
-    console.log("Inserting a new user into the database...")
-    const user = new User()
-    user.firstName = "Band"
-    user.lastName = "Saw"
-    user.age = 25
-    await AppDataSource.manager.save(user)
-    console.log("Saved a new user with id: " + user.id)
-
-    console.log("Loading users from the database...")
-    const users = await AppDataSource.manager.find(User)
-    console.log("Loaded users: ", users)
-
-
-
     this.app.use('/api/posts', this.postController.router);
     this.app.get('/', (req: Request, res: Response) => {
             res.send('Hello Worlddd');
     })
     }
 
-    
+
     public start(){
         this.app.listen(this.app.get('port'), () => {
             console.log('Server on port', this.app.get('port'));
