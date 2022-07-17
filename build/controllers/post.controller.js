@@ -19,10 +19,10 @@ class PostController {
     constructor() {
         this.index = (req, res) => __awaiter(this, void 0, void 0, function* () {
             console.log('1. HERE');
-            yield this.postService.index().then(users => {
+            yield this.postService.index().then((users) => {
                 console.log('3 HERE', users);
             });
-            res.send('Check the logs, idiota');
+            res.send('Check the logs, idiota. ');
         });
         this.create = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const user = req['body'];
