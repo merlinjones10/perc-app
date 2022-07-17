@@ -18,8 +18,13 @@ class PostService {
             const users = yield this.userRepository.find();
             return users;
         });
-        this.create = () => __awaiter(this, void 0, void 0, function* () {
-            return 'Create from service';
+        this.create = (user) => __awaiter(this, void 0, void 0, function* () {
+            const newUser = new User_1.User();
+            newUser.firstName = user.firstName.toLowerCase();
+            newUser.lastName = user.lastName.toLowerCase();
+            newUser.age = user.age;
+            yield this.userRepository.save(newUser);
+            return { success: true };
         });
         this.update = () => __awaiter(this, void 0, void 0, function* () {
             return 'Update from service';

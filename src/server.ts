@@ -17,6 +17,7 @@ class Server {
 
   public configuration() {
     this.app.set('port', process.env.PORT || 3000);
+    this.app.use(express.json());
   }
 
   public async routes() {

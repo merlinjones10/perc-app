@@ -14,17 +14,21 @@ export class PostController {
   }
 
   public index = async (req: Request, res: Response) => {
-    console.log('1. HERE');
     await this.postService.index().then((users) => {
       console.log('3 HERE', users);
     });
-    res.send('Check the logs, idiota. ');
+    res.send('Check the logs, idiota.');
   };
 
   public create = async (req: Request, res: Response) => {
-    const user = req['body'] as User;
-    // const newUser = await this.postService.create(user);
-    res.send('Create');
+    const user = req.body;
+    console.log('user:', user);
+
+    await this.postService.create(user).then((res) => {
+      console.log('created?', res);
+    });
+
+    res.send('Created');
   };
 
   public update = async (req: Request, res: Response) => {

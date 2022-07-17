@@ -25,6 +25,7 @@ class Server {
     }
     configuration() {
         this.app.set('port', process.env.PORT || 3000);
+        this.app.use(express_1.default.json());
     }
     routes() {
         return __awaiter(this, void 0, void 0, function* () {

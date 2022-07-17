@@ -1,29 +1,33 @@
-import {UserRepository} from "../repository/user.repository";
-import { User } from "../database/entity/User";
-import { AppDataSource } from "../data-source";
-
+import { User } from '../database/entity/User';
+import { AppDataSource } from '../data-source';
 
 export class PostService {
-    private userRepository;
+  private userRepository;
 
-    constructor() {
-        this.userRepository = AppDataSource.getRepository(User);
-    }
+  constructor() {
+    this.userRepository = AppDataSource.getRepository(User);
+  }
 
-public index = async () => {
+  public index = async () => {
     const users = await this.userRepository.find();
     return users;
-}
+  };
 
-public create = async () => {
-    return 'Create from service';
-}
+  public create = async (user: any) => {
+    const newUser = new User();
+    newUser.firstName = user.firstName.toLowerCase();
+    newUser.lastName = user.lastName.toLowerCase();
+    newUser.age = user.age;
+    await this.userRepository.save(newUser);
 
-public update = async () => {
+    return { success: true };
+  };
+
+  public update = async () => {
     return 'Update from service';
-}
+  };
 
-public delete = async () => {
+  public delete = async () => {
     return 'Delete from service';
-}
+  };
 }
