@@ -31,7 +31,7 @@ class Server {
             yield data_source_1.AppDataSource.initialize();
             this.app.use('/api/posts', this.postController.router);
             this.app.get('/', (req, res) => {
-                res.send('Hello Worlddd');
+                res.send('Hello Mars');
             });
         });
     }
