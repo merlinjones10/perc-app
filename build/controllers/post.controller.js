@@ -28,14 +28,14 @@ class PostController {
         });
         this.create = (req, res) => __awaiter(this, void 0, void 0, function* () {
             yield this.postService.create(req.body);
-            res.status(201).json({ "success": "created user" });
+            res.status(201).json({ success: 'created user' });
         });
         this.update = (req, res) => __awaiter(this, void 0, void 0, function* () {
             res.send('Update');
         });
         this.delete = (req, res) => __awaiter(this, void 0, void 0, function* () {
             yield this.postService.delete(req.params.id);
-            res.status(200).json({ "action": "deleted" });
+            res.status(200).json({ action: 'deleted' });
         });
         this.postService = new post_service_1.PostService();
         this.router = express_1.default.Router();

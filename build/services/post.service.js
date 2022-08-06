@@ -9,21 +9,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostService = void 0;
+exports.UserService = void 0;
 const User_1 = require("../database/entity/User");
 const data_source_1 = require("../data-source");
-class PostService {
+class UserService {
     constructor() {
         this.index = () => __awaiter(this, void 0, void 0, function* () {
             const users = yield this.userRepository.find();
             return users;
         });
+        this.indexOne = (uuid) => __awaiter(this, void 0, void 0, function* () {
+            return yield this.userRepository.findOne({ where: { id: uuid } });
+        });
         this.create = (user) => __awaiter(this, void 0, void 0, function* () {
-            const newUser = new User_1.User();
-            // MJ Do I want to keep casing, not convert?
-            newUser.first_name = user.first_name.toLowerCase();
-            newUser.last_name = user.last_name.toLowerCase();
-            yield this.userRepository.save(newUser);
+            console.log(user);
+            try {
+                const newUser = yield this.userRepository.create({
+                    first_name: user.first_name,
+                    last_name: user.last_name
+                });
+                yield this.userRepository.save(newUser);
+            }
+            catch (e) {
+                console.log('err:', e);
+            }
         });
         this.delete = (userId) => __awaiter(this, void 0, void 0, function* () {
             try {
@@ -42,7 +51,7 @@ class PostService {
         this.userRepository = data_source_1.AppDataSource.getRepository(User_1.User);
     }
 }
-exports.PostService = PostService;
+exports.UserService = UserService;
 //TODO change route name to USERS or something
 // Create get for individual user, using req param not body
 // CHANGE naming of controllers?

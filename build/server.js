@@ -15,23 +15,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 require("reflect-metadata");
 require("dotenv/config");
-const post_controller_1 = require("./controllers/post.controller");
+const user_controller_1 = require("./controllers/user.controller");
 const data_source_1 = require("./data-source");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
         this.configuration();
-        this.postController = new post_controller_1.PostController();
+        this.userController = new user_controller_1.UserController();
         this.routes();
     }
     configuration() {
-        this.app.set('port', process.env.PORT || 3000);
+        this.app.set('port', process.env.PORT || 3001);
         this.app.use(express_1.default.json());
     }
     routes() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield data_source_1.AppDataSource.initialize();
-            this.app.use('/api/posts', this.postController.router);
+            data_source_1.AppDataSource.initialize().catch((e) => console.log('DB uninitialized:', e));
+            this.app.use('/api/users', this.userController.router);
             this.app.get('/', (req, res) => {
                 res.status(200).send(`SERVER RUNNING @ ${new Date()}`);
             });
@@ -45,3 +45,6 @@ class Server {
 }
 const server = new Server();
 server.start();
+//TODO setup tests,
+// Add lint and tests to GH actions
+// Deploy
