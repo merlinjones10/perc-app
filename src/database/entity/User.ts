@@ -1,18 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import {Entity, Column, OneToMany} from "typeorm"
+import {Instrument} from "./Instrument";
+import {Content} from "./Content";
 
-@Entity('user')
-export class User {
-
-    @PrimaryGeneratedColumn()
-    id: number
-
-    @Column()
-    firstName: string
+@Entity('users')
+export class User extends Content {
 
     @Column()
-    lastName: string
+    first_name: string
 
     @Column()
-    age: number
+    last_name: string
 
+    @OneToMany(() => Instrument, (instrument) => instrument.user)
+    instruments: Instrument[]
 }

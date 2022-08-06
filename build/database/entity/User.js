@@ -11,25 +11,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
-let User = class User {
+const Instrument_1 = require("./Instrument");
+const Content_1 = require("./Content");
+let User = class User extends Content_1.Content {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
-    __metadata("design:type", Number)
-], User.prototype, "id", void 0);
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], User.prototype, "first_name", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], User.prototype, "firstName", void 0);
+], User.prototype, "last_name", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], User.prototype, "lastName", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], User.prototype, "age", void 0);
+    (0, typeorm_1.OneToMany)(() => Instrument_1.Instrument, (instrument) => instrument.user),
+    __metadata("design:type", Array)
+], User.prototype, "instruments", void 0);
 User = __decorate([
-    (0, typeorm_1.Entity)('user')
+    (0, typeorm_1.Entity)('users')
 ], User);
 exports.User = User;

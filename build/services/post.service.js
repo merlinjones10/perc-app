@@ -20,19 +20,29 @@ class PostService {
         });
         this.create = (user) => __awaiter(this, void 0, void 0, function* () {
             const newUser = new User_1.User();
-            newUser.firstName = user.firstName.toLowerCase();
-            newUser.lastName = user.lastName.toLowerCase();
-            newUser.age = user.age;
+            // MJ Do I want to keep casing, not convert?
+            newUser.first_name = user.first_name.toLowerCase();
+            newUser.last_name = user.last_name.toLowerCase();
             yield this.userRepository.save(newUser);
-            return { success: true };
+        });
+        this.delete = (userId) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield this.userRepository.findOneBy({ id: userId });
+                if (user) {
+                    this.userRepository.remove(user);
+                }
+            }
+            catch (e) {
+                console.log('user not found');
+            }
         });
         this.update = () => __awaiter(this, void 0, void 0, function* () {
             return 'Update from service';
-        });
-        this.delete = () => __awaiter(this, void 0, void 0, function* () {
-            return 'Delete from service';
         });
         this.userRepository = data_source_1.AppDataSource.getRepository(User_1.User);
     }
 }
 exports.PostService = PostService;
+//TODO change route name to USERS or something
+// Create get for individual user, using req param not body
+// CHANGE naming of controllers?

@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 require("reflect-metadata");
+require("dotenv/config");
 const post_controller_1 = require("./controllers/post.controller");
 const data_source_1 = require("./data-source");
 class Server {
@@ -32,7 +33,7 @@ class Server {
             yield data_source_1.AppDataSource.initialize();
             this.app.use('/api/posts', this.postController.router);
             this.app.get('/', (req, res) => {
-                res.send('Hello Mars');
+                res.status(200).send(`SERVER RUNNING @ ${new Date()}`);
             });
         });
     }

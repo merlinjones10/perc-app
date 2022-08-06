@@ -1,9 +1,10 @@
-import { PrimaryGeneratedColumn, Column } from 'typeorm';
+import {PrimaryGeneratedColumn, CreateDateColumn} from 'typeorm';
 
 export abstract class Content {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
 
-  @Column()
-  name: string;
+    @CreateDateColumn()
+    created_at: Date
+
 }

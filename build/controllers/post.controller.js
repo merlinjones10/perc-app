@@ -17,32 +17,33 @@ const express_1 = __importDefault(require("express"));
 const post_service_1 = require("../services/post.service");
 class PostController {
     constructor() {
-        this.index = (req, res) => __awaiter(this, void 0, void 0, function* () {
+        this.indexAll = (req, res) => __awaiter(this, void 0, void 0, function* () {
             yield this.postService.index().then((users) => {
-                console.log('3 HERE', users);
+                res.status(200).json({ users: users });
             });
-            res.send('Check the logs, idiota.');
+        });
+        this.indexOne = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            console.log('h1');
+            res.end();
         });
         this.create = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const user = req.body;
-            console.log('user:', user);
-            yield this.postService.create(user).then((res) => {
-                console.log('created?', res);
-            });
-            res.send('Created');
+            yield this.postService.create(req.body);
+            res.status(201).json({ "success": "created user" });
         });
         this.update = (req, res) => __awaiter(this, void 0, void 0, function* () {
             res.send('Update');
         });
         this.delete = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            res.send('Delete');
+            yield this.postService.delete(req.params.id);
+            res.status(200).json({ "action": "deleted" });
         });
         this.postService = new post_service_1.PostService();
         this.router = express_1.default.Router();
         this.routes();
     }
     routes() {
-        this.router.get('/', this.index);
+        this.router.get('/', this.indexAll);
+        this.router.get('/:id', this.indexOne);
         this.router.post('/', this.create);
         this.router.put('/:id', this.update);
         this.router.delete('/:id', this.delete);
