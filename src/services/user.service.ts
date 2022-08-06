@@ -18,7 +18,6 @@ export class UserService {
   };
 
   public create = async (user: any) => {
-    console.log(user);
     try {
       const newUser = await this.userRepository.create({
         first_name: user.first_name,
