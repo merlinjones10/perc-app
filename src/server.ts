@@ -2,16 +2,19 @@ import express, { Request, Response } from 'express';
 import 'reflect-metadata';
 import 'dotenv/config';
 import { UserController } from './controllers/user.controller';
+import { InstrumentController } from './controllers/instrument.controller';
 import { AppDataSource } from './data-source';
 
 class Server {
   private app: express.Application;
   private userController: UserController;
+  private instrumentController: InstrumentController;
 
   constructor() {
     this.app = express();
     this.configuration();
     this.userController = new UserController();
+    this.instrumentController = new InstrumentController();
     this.routes();
   }
 
@@ -21,11 +24,12 @@ class Server {
   }
 
   public async routes() {
-    AppDataSource.initialize().catch((e) =>
+    await AppDataSource.initialize().catch((e) =>
       console.log('DB uninitialized:', e)
     );
-
+    AppDataSource.synchronize().catch((e) => console.log('err', e));
     this.app.use('/api/users', this.userController.router);
+    this.app.use('/api/instruments', this.instrumentController.router);
 
     this.app.get('/', (req: Request, res: Response) => {
       res.status(200).send(`SERVER RUNNING @ ${new Date()}`);
@@ -43,5 +47,5 @@ const server = new Server();
 server.start();
 
 //TODO setup tests,
-// Add lint and tests to GH actions
+// Add lintdd and tests to GH actions
 // Deploy

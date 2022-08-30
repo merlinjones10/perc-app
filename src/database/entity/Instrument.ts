@@ -1,25 +1,56 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from 'typeorm';
-import {Content} from './Content';
-import {User} from "./User";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn
+} from 'typeorm';
+import { Content } from './Content';
+import { User } from './User';
+
+export enum Categories {
+  DEFAULT = 'default',
+  TUNED = 'tuned',
+  CYMBAL = 'cymbal',
+  SMALL = 'small',
+  DRUM = 'drum',
+  ELECTRONIC = 'ELECTRONIC'
+}
 
 @Entity('instruments')
 export class Instrument extends Content {
-    @Column({type: 'numeric', precision: 10, scale: 2})
-    value: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    location: string;
+  @Column({ type: 'numeric', precision: 10, scale: 2, nullable: true })
+  value: number;
 
-    @Column()
-    description: string;
+  @Column()
+  location: string;
 
-    @ManyToOne(() => User, (user: User) => user.instruments)
-    user: User
+  @Column()
+  name: string;
 
-    @Column()
-    notes: string
+  @Column({ type: 'enum', enum: Categories, default: Categories.DEFAULT })
+  category: Categories;
+
+  @Column()
+  notes: string;
+
+  @Column({ nullable: true })
+  size: string;
+
+  @Column()
+  case: string;
+
+  @Column({ nullable: true })
+  user_id: number;
+
+  @ManyToOne(() => User, (user) => user.instruments)
+  @JoinColumn({
+    name: 'user_id'
+  })
+  user: User;
 }
 
-// TODO hook up new route for instrument
-// TODO Make new controller/service for instruments
 // TODO review how the manytoone relationship looks/works when adding an instrument.

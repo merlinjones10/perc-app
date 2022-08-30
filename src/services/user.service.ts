@@ -13,8 +13,8 @@ export class UserService {
     return users;
   };
 
-  public indexOne = async (uuid: string) => {
-    return await this.userRepository.findOne({ where: { id: uuid } });
+  public indexOne = async (uid: number) => {
+    return await this.userRepository.findOne({ where: { id: uid } });
   };
 
   public create = async (user: any) => {
@@ -29,9 +29,9 @@ export class UserService {
     }
   };
 
-  public delete = async (userId: string) => {
+  public delete = async (uid: number) => {
     try {
-      const user = await this.userRepository.findOneBy({ id: userId });
+      const user = await this.userRepository.findOneBy({ id: uid });
       if (user) {
         this.userRepository.remove(user);
         return true;

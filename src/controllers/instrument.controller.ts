@@ -1,44 +1,48 @@
 import express, { Router, Request, Response } from 'express';
 import { UserService } from '../services/user.service';
+import { InstrumentService } from '../services/instrument.service';
 import { User } from '../database/entity/User';
+import { Instrument, Categories } from '../database/entity/Instrument';
 import { AppDataSource } from '../data-source';
 
-export class UserController {
+export class InstrumentController {
   public router: Router;
-  private userService: UserService;
+  private instrumentService: InstrumentService;
 
   constructor() {
-    this.userService = new UserService();
+    this.instrumentService = new InstrumentService();
     this.router = express.Router();
     this.routes();
   }
 
   public indexAll = async (req: Request, res: Response) => {
-    await this.userService.index().then((users: any) => {
-      res.status(200).json({ users: users });
+    await this.instrumentService.index().then((instruments: any) => {
+      res.status(200).json({ instruments });
     });
+    res.end();
   };
 
   public indexOne = async (req: Request, res: Response) => {
     const uid = parseInt(req.params.id);
-    // TODO sanitize input
-    const user = await this.userService.indexOne(uid);
-    res.status(200).json({ user });
+    console.log('User is', uid);
+    const instruments = await this.instrumentService.indexByOwner(uid);
+    console.log(instruments);
+    res.status(200).json({ instruments });
   };
+
   public create = async (req: Request, res: Response) => {
-    await this.userService.create(req.body);
-    res.status(201).json({ success: 'created user' });
+    await this.instrumentService.create(req.body);
+    res.status(201).json({ success: 'created instrument' });
   };
 
   public update = async (req: Request, res: Response) => {
-    res.send('Update');
+    res.send('not in use');
   };
 
   public delete = async (req: Request, res: Response) => {
-    const uid = parseInt(req.params.id);
-    const deleted = await this.userService.delete(uid);
+    const deleted = await this.instrumentService.delete(req.params.id);
     if (deleted) return res.status(200).json({ action: 'deleted' });
-    return res.status(500).json({ error: 'user not found' });
+    return res.status(500).json({ error: 'instrument not found' });
   };
 
   public routes() {
@@ -49,5 +53,3 @@ export class UserController {
     this.router.delete('/:id', this.delete);
   }
 }
-
-// TODO move get1 user endpoint to /user/:id, not users/:id, could be confusing

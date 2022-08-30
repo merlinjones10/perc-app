@@ -7,12 +7,12 @@ module.exports = {
   type: 'postgres',
   host: 'localhost',
   port: 5432,
-  username: 'merlinjones',
-  password: 'postgres',
-  database: 'percdb',
+  username: 'postgres',
+  password: 'secret',
+  database: 'postgres',
   synchronize: true,
   logging: false,
   entities: [User, Instrument],
-  migrations: [],
+  migrations: ['migration/**/*.ts'],
   subscribers: []
 };
